@@ -20,37 +20,21 @@ def get_euclids_extended(m, n):
     c = m   
     d = n    
 
-    counter = 1 
-
     while(True):
-        print("phase ", counter)
         q = int(c / d)   
-        print("q = ", q)
         r = c % d
-        print("r = ", r)
 
         if (r == 0):
             return (int(a),int(b))
 
         c = d
-        print("c set to ", c)
         d = r
-        print("d set to ", d)
         t = x
-        print("t set to ", t)
         x = a
-        print("x set to ", x)
         a = (t - (q * a))
-        print("a set to ", a)
         t = y
-        print("t set to ", t)
         y = b
-        print("y set to ", y)
         b = (t - (q * b))
-        print("b set to ", b)
-
-        counter = counter + 1
-        print("\n")
 
 print(get_euclids_extended(m,n))
 
