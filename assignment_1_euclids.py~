@@ -25,7 +25,7 @@ def get_euclids_extended(m, n):
         r = c % d
 
         if (r == 0):
-            print("GCD: ", d); # print the gcd(m, n)
+            print("GCD: %d\n", d); # print the gcd(m, n)
             print("Coefficients (a, b) are: ")
             return (int(a),int(b))
 
