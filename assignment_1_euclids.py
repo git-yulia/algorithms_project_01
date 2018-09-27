@@ -25,6 +25,8 @@ def get_euclids_extended(m, n):
         r = c % d
 
         if (r == 0):
+            print("GCD: ", d); # print the gcd(m, n)
+            print("Coefficients (a, b) are: ")
             return (int(a),int(b))
 
         c = d
@@ -41,3 +43,4 @@ print(get_euclids_extended(m,n))
 # Make sure that the POST-CONDITION requirements were met 
 # Euclid's extended algorith, given integers m and n, should return (a,b): 
 #       a*m + b*n = gcd(m, n)
+# It should also return gcd(m, n)
