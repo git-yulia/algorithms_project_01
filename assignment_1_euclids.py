@@ -4,6 +4,7 @@
 # Problem 1.9(c), Euclid's Extended Algorithm 
 
 import sys 
+import random
 
 m = 0
 n = 0
@@ -12,6 +13,7 @@ n = 0
 while (m <= 0): m = int(input("Please input an integer greater than 0: "))
 while (n <= 0): n = int(input("And just one more, please: "))
 
+# Implementation of Euclid's Extended Algorithm
 def get_euclids_extended(m, n): 
     a = 0  
     x = 1  
@@ -19,15 +21,15 @@ def get_euclids_extended(m, n):
     y = 0  
     c = m   
     d = n    
+    iterations = 0
 
     while(True):
         q = int(c / d)   
         r = c % d
+        ++iterations
 
         if (r == 0):
-            print("GCD: ", d); # print the gcd(m, n)
-            print("Coefficients (a, b) are: ")
-            return (int(a),int(b))
+            return (int(d),int(a),int(b), int(iterations))
 
         c = d
         d = r
@@ -38,7 +40,21 @@ def get_euclids_extended(m, n):
         y = b
         b = (t - (q * b))
 
-print(get_euclids_extended(m,n))
+# Function to run trials and get average runtime (in iterations)
+def runEuclidsExtended(maxBitLength, runsPerLength): 
+    results = []
+    avg = 0;
+    for bitlength in range(0, maxBitLength):
+        for i in range(0, runsPerLength):
+            smallNum = random.getrandbits(bitlength)
+            bigNum = random.getranbdits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
+            avg += get_euclids_extended(bigNum, smallNum)[3]
+        results.append(avg / runsPerLength)
+
+results = get_euclids_extended(m,n)
+print("GCD: ", results[0], "\nCoefficients x and y: ", results[1], ", ", results[2])
+
+
 
 # Make sure that the POST-CONDITION requirements were met 
 # Euclid's extended algorith, given integers m and n, should return (a,b): 
