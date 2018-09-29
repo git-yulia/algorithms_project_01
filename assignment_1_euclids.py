@@ -74,12 +74,16 @@ def runEuclidsExtended(maxBitLength, runsPerLength):
             smallNum = 0
             bigNum = 0
             while(smallNum <= 0): smallNum = random.getrandbits(bitlength)
-            while(bigNum <= 0): bigNum = random.getrandbits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
+            while(bigNum <= 0): bigNum = random.getrandbits(maxBitLength + 50) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
             avg += get_euclids_extended(bigNum, smallNum)[3]
         results.append(avg / runsPerLength)
     plotResults(lengths, results)
 
-runEuclidsExtended(100, 100)
+bits = 0
+trials = 0
+while (bits <= 0): bits = int(input("Please input an integer greater than 0: "))
+while (trials <= 0): trials = int(input("And just one more, please: "))
+runEuclidsExtended(bits, trials)
 
 
 # Make sure that the POST-CONDITION requirements were met 
