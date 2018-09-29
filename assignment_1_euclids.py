@@ -28,7 +28,7 @@ def get_euclids_extended(m, n):
     while(True):
         q = int(c / d)   
         r = c % d
-        ++iterations
+        iterations += 1
 
         if (r == 0):
             return (int(d),int(a),int(b), int(iterations))
@@ -54,8 +54,10 @@ def runEuclidsExtended(maxBitLength, runsPerLength):
     for bitlength in range(1, maxBitLength):
         lengths.append(bitlength)
         for i in range(0, runsPerLength):
-            smallNum = random.getrandbits(bitlength)
-            bigNum = random.getrandbits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
+            smallNum = 0
+            bigNum = 0
+            while(smallNum <= 0): smallNum = random.getrandbits(bitlength)
+            while(bigNum <= 0): bigNum = random.getrandbits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
             avg += get_euclids_extended(bigNum, smallNum)[3]
         results.append(avg / runsPerLength)
     plotResults(lengths, results)
