@@ -26,7 +26,7 @@ def get_euclids_extended(m, n):
     while(True):
         q = int(c / d)   
         r = c % d
-        ++iterations
+        iterations++
 
         if (r == 0):
             return (int(d),int(a),int(b), int(iterations))
