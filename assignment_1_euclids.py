@@ -8,12 +8,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-m = 0
-n = 0
-
-# This step acquires inputs while verifying that the algorithm's PRE-CONDITIONS are being met. 
-while (m <= 0): m = int(input("Please input an integer greater than 0: "))
-while (n <= 0): n = int(input("And just one more, please: "))
 
 # Implementation of Euclid's Extended Algorithm
 def get_euclids_extended(m, n): 
@@ -42,11 +36,31 @@ def get_euclids_extended(m, n):
         y = b
         b = (t - (q * b))
 
+# solve for a and b - ripped from https://stackoverflow.com/questions/22239691/code-for-line-of-best-fit-of-a-scatter-plot-in-python
+def best_fit(X, Y):
+
+    xbar = sum(X)/len(X)
+    ybar = sum(Y)/len(Y)
+    n = len(X) # or len(Y)
+
+    numer = sum([xi*yi for xi,yi in zip(X, Y)]) - n * xbar * ybar
+    denum = sum([xi**2 for xi in X]) - n * xbar**2
+
+    b = numer / denum
+    a = ybar - b * xbar
+
+    print('best fit line:\ny = {:.2f} + {:.2f}x'.format(a, b))
+
+    return a, b
+
 def plotResults(xvals, yvals):
     plt.title("Iterations as a function of encoding length for Euclid's Extended Algorithm")
     plt.xlabel("Encoding length (in bits)")
     plt.ylabel("Average iterations")
-    plt.plot(xvals, yvals)
+    plt.scatter(xvals, yvals)
+    a, b = best_fit(xvals, yvals)
+    yfit = [a + b * xi for xi in xvals]
+    plt.plot(xvals, yfit)
     plt.show()
 
 # Function to run trials and get average runtime (in iterations)
@@ -65,11 +79,7 @@ def runEuclidsExtended(maxBitLength, runsPerLength):
         results.append(avg / runsPerLength)
     plotResults(lengths, results)
 
-results = get_euclids_extended(m,n)
-print("GCD: ", results[0])
-print("Coefficients x and y: ", results[1], ", ", results[2])
-
-runEuclidsExtended(15, 1)
+runEuclidsExtended(100, 100)
 
 
 # Make sure that the POST-CONDITION requirements were met 
