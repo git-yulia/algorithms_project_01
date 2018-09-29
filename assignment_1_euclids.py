@@ -43,6 +43,9 @@ def get_euclids_extended(m, n):
         b = (t - (q * b))
 
 def plotResults(xvals, yvals):
+    plt.title("Iterations as a function of encoding length for Euclid's Extended Algorithm")
+    plt.xlabel("Encoding length (in bits)")
+    plt.ylabel("Average iterations")
     plt.plot(xvals, yvals)
     plt.show()
 
