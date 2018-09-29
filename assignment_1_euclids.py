@@ -5,6 +5,8 @@
 
 import sys 
 import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 m = 0
 n = 0
@@ -40,20 +42,29 @@ def get_euclids_extended(m, n):
         y = b
         b = (t - (q * b))
 
+def plotResults(xvals, yvals):
+    plt.plot(xvals, yvals)
+    plt.show()
+
 # Function to run trials and get average runtime (in iterations)
 def runEuclidsExtended(maxBitLength, runsPerLength): 
+    lengths = []
     results = []
     avg = 0;
-    for bitlength in range(0, maxBitLength):
+    for bitlength in range(1, maxBitLength):
+        lengths.append(bitlength)
         for i in range(0, runsPerLength):
             smallNum = random.getrandbits(bitlength)
-            bigNum = random.getranbdits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
+            bigNum = random.getrandbits(150) # size is bounded by the smaller one, so guarantee the smaller one is smallNum
             avg += get_euclids_extended(bigNum, smallNum)[3]
         results.append(avg / runsPerLength)
+    plotResults(lengths, results)
 
 results = get_euclids_extended(m,n)
-print("GCD: ", results[0], "\nCoefficients x and y: ", results[1], ", ", results[2])
+print("GCD: ", results[0])
+print("Coefficients x and y: ", results[1], ", ", results[2])
 
+runEuclidsExtended(15, 1)
 
 
 # Make sure that the POST-CONDITION requirements were met 
