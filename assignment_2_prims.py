@@ -3,40 +3,37 @@
 # Team members: Yevhen Voitiuk, Julia Maliauka, Michael Petracca
 # Due October 24, 2018 
 
+import sys 
+import random 
+
 # Prim's algorithm for constructing MCSTs grows trees in a natural way, 
 # starting from an arbitrary root. 
 # At each stage, it adds a new branch to the already-constructed tree T. 
 # The algorithm stops when all nodes have been reached. 
 
-# Initialize our graph 
-# CURRENTLY USING EXAMPLE GRAPH 1 - see the .png in Git repo 
-graph = { "e1" : ["v1", "v2"],  
-          "e2" : ["v1", "v3"],  
-          "e3" : ["v3", "v4"],  
-          "e4" : ["v2", "v4"],  
-          "e5" : ["v2", "v5"],
-          "e6" : ["v4", "v5"]
-        } 
+# Initialize our graph using our edge weights 
+graph = [ [0,2,3,0,0],
+          [2,0,0,1,8],
+          [3,0,0,1,0],
+          [0,1,1,0,2],
+          [0,8,0,2,0]
+]
 
 # Initialize V using all the vertices from the graph. 
-# (vertices are all currently set to a cost of 1.)
 vertices = ["v1","v2","v3","v4","v5"]
-edges    = ["e1", "e2", "e3", "e4", "e5", "e6"]  
 
 # Initialize T, an empty tree that will later become our MCST. 
 tree = []
 
 # Initialize B using v, an arbitrary vertex of V (all the vertices). 
-B = ["v1"]
+# B is a min-priority queue B
+# keeps track of all the vertices NOT in the tree T 
+# uses: min weight of any edge connecting vertex to t 
+# infinity if no edge exists 
+B = [] 
 
-# While B != V: 
-index = 1
-while len(B) < len(vertices): 
-    # find cheapest e = (v1, v2) such that v1 in B, v2 in V - B
-    
+# pick the arbitrary root to use as our starting point 
+starting_node = random.randint(0, (len(vertices) - 1))
+print("Starting Prim's algorithm at arbitrary root", vertices[starting_node])
 
-    # T = T union {e}
-
-    index = index + 1
-
-
+# while B is not empty:
