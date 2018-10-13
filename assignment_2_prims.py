@@ -32,10 +32,11 @@ B = ["v1"]
 # While B != V: 
 index = 1
 while len(B) < len(vertices): 
-    B.append(vertices[index])
-    print(B)
+    # find cheapest e = (v1, v2) such that v1 in B, v2 in V - B
+    
+
+    # T = T union {e}
+
     index = index + 1
 
-# find cheapest e = (v1, v2) such that v1 in B, v2 in V - B
 
-# T = T union {e}
