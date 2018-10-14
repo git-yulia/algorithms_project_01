@@ -54,12 +54,23 @@ class vertex:
         self.cheapest_edge_cost = 13
         return self.cheapest_edge_cost
 
+'must include insert, minimum, extract-min, decrease-key'
 class min_priority_queue:
     'Contains information and methods for dealing with B, our heap structure' 
 
     def __init__(self, size_of_heap):
         self.size = size_of_heap
-        self.contents =  [vertex(index) for index in range(self.size)]
+        self.contents = [vertex(index) for index in range(self.size)]
+
+    'pop: removes front element at index 0 which is lowest cost, highest priority'
+    def get_minimum(self):
+        popped_item = self.contents[0]
+        self.contents.remove(popped_item)
+        self.size = self.size - 1
+        return popped_item
+
+    'push: appends element to the back, lowest priority'
+
 
     
 
@@ -80,22 +91,28 @@ parents = [None for index in range(len(vertices))]
 # create a min heap of size V. let the min heap be B[]
 B = min_priority_queue(len(vertices))
 
+while(B.size != 0):
+
+    u = B.get_minimum() 
+
+    adjacent_vertices = u.get_adjacent_vertices() 
+    print(u.name, "adjacents:")
+
+    for index in range(len(adjacent_vertices)): 
+        print(vertices[adjacent_vertices[index]])
+        """
+        if B.contains(vertex): 
+            print("found", vertex.name, "in B.")
+            """
+
+    print("_____________________")
+
+
+
 
 """
-for vertex in range(len(B)):
-    print(">",B[vertex].find_cheapest_edge())
 
-# while B is not empty: 
-while(len(B) != 0):
 
-#   a) u (a vertex) = get min(B)
-    u = B[HIGHEST_PRIORITY]
-    B.remove(u) # remove u because we already looked at it, and we want to avoid cycles in the future
-
-    'print("(",u.name,",", u.cheapest_edge_cost,")")'
-
-#   b) for every adjacent v of u:
-    adjacent_vertices = u.get_adjacent_vertices() 
 
     for vertex in range(len(adjacent_vertices)): 
         if vertex in B: 
