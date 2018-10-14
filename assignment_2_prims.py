@@ -54,7 +54,14 @@ class vertex:
         self.cheapest_edge_cost = 13
         return self.cheapest_edge_cost
 
+class min_priority_queue:
+    'Contains information and methods for dealing with B, our heap structure' 
 
+    def __init__(self, size_of_heap):
+        self.size = size_of_heap
+        self.contents =  [vertex(index) for index in range(self.size)]
+
+    
 
 # Initialize T, an empty tree that will later become our MCST. 
 tree = []
@@ -71,13 +78,12 @@ print("Starting Prim's algorithm at arbitrary root", vertices[starting_node])
 parents = [None for index in range(len(vertices))]
 
 # create a min heap of size V. let the min heap be B[]
-B = [None for index in range(len(vertices))]
+B = min_priority_queue(len(vertices))
 
-for new_vertex in range(len(B)):
-    B[new_vertex] = vertex(new_vertex) 
 
+"""
 for vertex in range(len(B)):
-    print(B[vertex].name)
+    print(">",B[vertex].find_cheapest_edge())
 
 # while B is not empty: 
 while(len(B) != 0):
@@ -86,14 +92,19 @@ while(len(B) != 0):
     u = B[HIGHEST_PRIORITY]
     B.remove(u) # remove u because we already looked at it, and we want to avoid cycles in the future
 
-    u.get_adjacent_vertices() 
-
-    print("(",u.name,",", u.cheapest_edge_cost,")")
+    'print("(",u.name,",", u.cheapest_edge_cost,")")'
 
 #   b) for every adjacent v of u:
+    adjacent_vertices = u.get_adjacent_vertices() 
+
+    for vertex in range(len(adjacent_vertices)): 
+        if vertex in B: 
+            print("found", vertex.name, "in B.")
+
 #           if v is in B:
 #               update key value of v in B if weight of edge (u,v) is
 #               smaller than current key value of v 
 #               parent[v] = u 
 
+"""
 
