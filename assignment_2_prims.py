@@ -7,6 +7,8 @@ import sys
 import random 
 import math 
 
+HIGHEST_PRIORITY = 0 
+
 # Prim's algorithm for constructing MCSTs grows trees in a natural way, 
 # starting from an arbitrary root. 
 # At each stage, it adds a new branch to the already-constructed tree T. 
@@ -26,19 +28,31 @@ vertices = ["v1","v2","v3","v4","v5"]
 class vertex:
     'Contains vertex and information about cheapest edges connected to it'
 
-    def __init__(self, vertex_number, cheapest_edge_cost):
+    def __init__(self, vertex_number):
        self.vertex_number = vertex_number
        self.name = vertices[vertex_number]
-       self.cheapest_edge_cost = cheapest_edge_cost
+       self.cheapest_edge_cost = math.inf 
        
     def get_name(self):
         return self.name
 
+    'get_key: returns the cost of the cheapest edge connected to this vertex'
     def get_key(self):
         return self.cheapest_edge_cost
 
+    'get_adjacent_vertices: returns a list of all vertices connected to this one'
+    def get_adjacent_vertices(self):
+        adjacent_vertices = []
+
+        for index in range(len(vertices)):
+            if (graph[self.vertex_number][index] != 0):
+                adjacent_vertices.append(index)
+
+        return adjacent_vertices 
+
     def find_cheapest_edge(self):
-        return 0 
+        self.cheapest_edge_cost = 13
+        return self.cheapest_edge_cost
 
 
 
@@ -60,16 +74,20 @@ parents = [None for index in range(len(vertices))]
 B = [None for index in range(len(vertices))]
 
 for new_vertex in range(len(B)):
-    B[new_vertex] = vertex(new_vertex, math.inf) 
-    print("added", B[new_vertex].name)
+    B[new_vertex] = vertex(new_vertex) 
 
-
+for vertex in range(len(B)):
+    print(B[vertex].name)
 
 # while B is not empty: 
 while(len(B) != 0):
 
 #   a) u (a vertex) = get min(B)
-    u = B.pop()
+    u = B[HIGHEST_PRIORITY]
+    B.remove(u) # remove u because we already looked at it, and we want to avoid cycles in the future
+
+    u.get_adjacent_vertices() 
+
     print("(",u.name,",", u.cheapest_edge_cost,")")
 
 #   b) for every adjacent v of u:
