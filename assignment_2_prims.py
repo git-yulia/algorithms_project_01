@@ -71,6 +71,18 @@ class min_priority_queue:
 
     'push: appends element to the back, lowest priority'
 
+    'contains: checks B for existence of desired vertex'
+    def contains(self, vertex):
+        found = False 
+
+        index = 0 
+        while((found == False) and (index < self.size)):
+            if (self.contents[index].name == vertices[vertex]):
+                found = True
+            index = index + 1
+
+        return found
+
 
     
 
@@ -81,9 +93,6 @@ tree = []
 # starting_node = random.randint(0, (len(vertices) - 1))
 starting_node = 0 
 print("Starting Prim's algorithm at arbitrary root", vertices[starting_node])
-
-# pseudocode:
-#____________________________________________________________________
 
 # create an array parents[] of size V and fill it with NULL
 parents = [None for index in range(len(vertices))]
@@ -96,16 +105,12 @@ while(B.size != 0):
     u = B.get_minimum() 
 
     adjacent_vertices = u.get_adjacent_vertices() 
-    print(u.name, "adjacents:")
 
     for index in range(len(adjacent_vertices)): 
-        print(vertices[adjacent_vertices[index]])
-        """
-        if B.contains(vertex): 
-            print("found", vertex.name, "in B.")
-            """
+        if B.contains(adjacent_vertices[index]):
+            #if graph[u.vertex_number][index] != 0:
+            print(graph[u.vertex_number][index])
 
-    print("_____________________")
 
 
 
@@ -114,9 +119,6 @@ while(B.size != 0):
 
 
 
-    for vertex in range(len(adjacent_vertices)): 
-        if vertex in B: 
-            print("found", vertex.name, "in B.")
 
 #           if v is in B:
 #               update key value of v in B if weight of edge (u,v) is
