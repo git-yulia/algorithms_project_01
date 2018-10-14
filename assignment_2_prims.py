@@ -111,6 +111,10 @@ while(B.size != 0):
             #if graph[u.vertex_number][index] != 0:
             print(graph[u.vertex_number][index])
 
+            # update key value of v in B if weight of edge (u,v) is 
+            # smaller than current key value of v 
+            
+
 
 
 
@@ -118,8 +122,7 @@ while(B.size != 0):
 """
 
 
-
-
+ b) for every adjacent v of u:
 #           if v is in B:
 #               update key value of v in B if weight of edge (u,v) is
 #               smaller than current key value of v 
