@@ -63,9 +63,6 @@ class vertex:
         return self.cheapest_edge_cost
 
 
-"must include insert, minimum, extract-min, decrease-key"
-
-
 class min_priority_queue:
     "Contains information and methods for dealing with B, our heap structure"
 
@@ -96,9 +93,9 @@ class min_priority_queue:
 
         return found
 
-    def update_key(self, vertex, new_key_value):
-        for index in range(len(self.contents)):
-            self.contents[index].set_key(new_key_value)
+    def update_key(self, vertex_number, new_key_value):
+        print("Trying to set key for ", vertex_number, "to", new_key_value)
+        self.contents[vertex_number].set_key(new_key_value)
 
 
 # Initialize T, an empty tree that will later become our MCST.
@@ -115,6 +112,9 @@ parents = [(-1) for index in range(len(vertices))]
 # create a min heap of size V. let the min heap be B[]
 B = min_priority_queue(len(vertices))
 
+# make starting vertex's key 0 for now
+B.contents[0].set_key(0)
+
 iterations = 0
 while B.size != 0:
 
@@ -125,7 +125,7 @@ while B.size != 0:
     print("B: ", )
 
     for index in range(len(B.contents)):
-        print("[", index, "]: ", B.contents[index].name)
+        print("[", index, "]: ", "(", B.contents[index].name, B.contents[index].get_key(), ")")
 
     print("\nT: ")
     for index in range(len(T)):
@@ -136,7 +136,6 @@ while B.size != 0:
     for index in range(len(parents)):
         if (parents[index] != -1): print("[", vertices[index], "]: ", parents[index].name)
 
-    print(".....................................")
     #_____________________________________________________________________________
 
     u = B.get_minimum()
@@ -147,19 +146,54 @@ while B.size != 0:
     print("\nadjacent vertices to u: ( u is", u.name,")")
     for index in range(len(adjacent_vertices)):
         print(">", vertices[adjacent_vertices[index]])
+
     #_____________________________________________________________________________
 
     for index in range(len(adjacent_vertices)):
         if B.contains(adjacent_vertices[index]):
-            edge_cost = graph[u.vertex_number][index]
+
+            print(adjacent_vertices[index])
+            
+            #edge_cost = graph[][index]
+            edge_cost = graph[adjacent_vertices[index]][index]
+
+            print(">>>his edge cost was", edge_cost)
 
             # update key value of v in B if weight of edge (u,v) is
             # smaller than current key value of v
             if edge_cost < u.cheapest_edge_cost and edge_cost != 0:
-                B.update_key(u.vertex_number, 42)
+                B.update_key(u.vertex_number, edge_cost)
+
+
+                print("updated key for ", vertices[u.vertex_number] ," to", B.contents[u.vertex_number].get_key())
 
                 # parent[v] = u
                 parents[index] = u
 
+    print(".....................................")
+        
 
 
+
+
+"""
+5) While either pq doesn't become empty 
+    a) Extract minimum key vertex from pq. 
+       Let the extracted vertex be u.
+
+    b) Include u in MST using inMST[u] = true.
+
+    c) Loop through all adjacent of u and do 
+       following for every vertex v.
+
+           // If weight of edge (u,v) is smaller than
+           // key of v and v is not already in MST
+           If inMST[v] = false && key[v] > weight(u, v)
+
+               (i) Update key of v, i.e., do
+                     key[v] = weight(u, v)
+               (ii) Insert v into the pq 
+               (iv) parent[v] = u
+               
+6) Print MST edges using parent array.
+"""
