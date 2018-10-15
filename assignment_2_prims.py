@@ -97,16 +97,12 @@ class min_priority_queue:
         return found
 
     def update_key(self, vertex, new_key_value):
-        print("updating key for vertex", vertices[vertex])
-
         for index in range(len(self.contents)):
-            print(">vertex", self.contents[index].name)
-
-        # self.contents[vertex].set_key(new_key_value)
+            self.contents[index].set_key(new_key_value)
 
 
 # Initialize T, an empty tree that will later become our MCST.
-tree = []
+T = []
 
 # pick the arbitrary root to use as our starting point
 # starting_node = random.randint(0, (len(vertices) - 1))
@@ -114,16 +110,44 @@ starting_node = 0
 print("Starting Prim's algorithm at arbitrary root", vertices[starting_node])
 
 # create an array parents[] of size V and fill it with NULL
-parents = [None for index in range(len(vertices))]
+parents = [(-1) for index in range(len(vertices))]
 
 # create a min heap of size V. let the min heap be B[]
 B = min_priority_queue(len(vertices))
 
+iterations = 0
 while B.size != 0:
+
+    #                          updates
+    #_____________________________________________________________________________
+    iterations = iterations + 1
+    print("After", iterations, "iterations, here's what we have: \n")
+    print("B: ", )
+
+    for index in range(len(B.contents)):
+        print("[", index, "]: ", B.contents[index].name)
+
+    print("\nT: ")
+    for index in range(len(T)):
+        if (T[index] != INFINITY): print("[", index, "]: ", vertices[T[index]])
+
+
+    print("\nparents[] : ")
+    for index in range(len(parents)):
+        if (parents[index] != -1): print("[", vertices[index], "]: ", parents[index].name)
+
+    print(".....................................")
+    #_____________________________________________________________________________
 
     u = B.get_minimum()
 
     adjacent_vertices = u.get_adjacent_vertices()
+
+    #__________________________MORE TESTING EWWW___________________________________________________
+    print("\nadjacent vertices to u: ( u is", u.name,")")
+    for index in range(len(adjacent_vertices)):
+        print(">", vertices[adjacent_vertices[index]])
+    #_____________________________________________________________________________
 
     for index in range(len(adjacent_vertices)):
         if B.contains(adjacent_vertices[index]):
@@ -133,10 +157,9 @@ while B.size != 0:
             # smaller than current key value of v
             if edge_cost < u.cheapest_edge_cost and edge_cost != 0:
                 B.update_key(u.vertex_number, 42)
-                print(u.cheapest_edge_cost)
 
                 # parent[v] = u
                 parents[index] = u
 
-    # updates
+
 
