@@ -127,9 +127,11 @@ while B.size != 0:
     for index in range(len(B.contents)):
         print("[", index, "]: ", "(", B.contents[index].name, B.contents[index].get_key(), ")")
 
+    """
     print("\nT: ")
     for index in range(len(T)):
         if (T[index] != INFINITY): print("[", index, "]: ", vertices[T[index]])
+    """
 
 
     print("\nparents[] : ")
@@ -152,12 +154,9 @@ while B.size != 0:
     for index in range(len(adjacent_vertices)):
         if B.contains(adjacent_vertices[index]):
 
-            print(adjacent_vertices[index])
-            
-            #edge_cost = graph[][index]
-            edge_cost = graph[adjacent_vertices[index]][index]
+            edge_cost = graph[u.vertex_number][adjacent_vertices[index]]
 
-            print(">>>his edge cost was", edge_cost)
+            print(">>>his edge cost for (",(u.vertex_number),adjacent_vertices[index],") was", edge_cost)
 
             # update key value of v in B if weight of edge (u,v) is
             # smaller than current key value of v
