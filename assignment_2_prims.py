@@ -34,7 +34,7 @@ class vertex:
     def __init__(self, vertex_number):
         self.vertex_number = vertex_number
         self.name = vertices[vertex_number]
-        self.cheapest_edge_cost = INFINITY
+        self.key = INFINITY
 
     def get_name(self):
         return self.name
@@ -42,10 +42,10 @@ class vertex:
     "get_key: returns the cost of the cheapest edge connected to this vertex"
 
     def get_key(self):
-        return self.cheapest_edge_cost
+        return self.key
 
     def set_key(self, value):
-        self.cheapest_edge_cost = value
+        self.key = value
 
     "get_adjacent_vertices: returns a list of all vertices connected to this one"
 
@@ -59,8 +59,8 @@ class vertex:
         return adjacent_vertices
 
     def find_cheapest_edge(self):
-        self.cheapest_edge_cost = 13
-        return self.cheapest_edge_cost
+        self.key = 13
+        return self.key
 
 
 class min_priority_queue:
@@ -133,7 +133,6 @@ while B.size != 0:
         if (T[index] != INFINITY): print("[", index, "]: ", vertices[T[index]])
     """
 
-
     print("\nparents[] : ")
     for index in range(len(parents)):
         if (parents[index] != -1): print("[", vertices[index], "]: ", parents[index].name)
@@ -160,14 +159,11 @@ while B.size != 0:
 
             # update key value of v in B if weight of edge (u,v) is
             # smaller than current key value of v
-            if edge_cost < u.cheapest_edge_cost and edge_cost != 0:
+            if edge_cost < u.key and edge_cost != 0:
                 B.update_key(u.vertex_number, edge_cost)
 
 
                 print("updated key for ", vertices[u.vertex_number] ," to", B.contents[u.vertex_number].get_key())
-
-                # parent[v] = u
-                parents[index] = u
 
     print(".....................................")
         
