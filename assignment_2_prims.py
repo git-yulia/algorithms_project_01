@@ -15,17 +15,19 @@ INFINITY = math.inf
 # At each stage, it adds a new branch to the already-constructed tree T.
 # The algorithm stops when all nodes have been reached.
 
-# Initialize our graph using our edge weights
 graph = [
-    [0, 2, 3, 0, 0],
-    [2, 0, 0, 1, 8],
-    [3, 0, 0, 1, 0],
-    [0, 1, 1, 0, 2],
-    [0, 8, 0, 2, 0],
+    #A  B  C  D  E  F  G 
+    [0, 2, 3, 0, 0, 0, 0], # A
+    [2, 0, 1, 1, 4, 0, 0], # B
+    [3, 1, 0, 0, 0, 5, 0], # C
+    [0, 1, 0, 0, 1, 0, 0], # D
+    [0, 4, 0, 1, 0, 1, 0], # E
+    [0, 0, 5, 0, 1, 0, 1], # F
+    [0, 0, 0, 0, 0, 1, 0]  # G
 ]
 
 # Initialize V using all the vertices from the graph.
-vertices = ["v1", "v2", "v3", "v4", "v5"]
+vertices = ["v1", "v2", "v3", "v4", "v5", "v6", "v7"]
 
 
 class vertex:
@@ -40,28 +42,24 @@ class vertex:
         return self.name
 
     "get_key: returns the cost of the cheapest edge connected to this vertex"
-
     def get_key(self):
         return self.key
 
     def set_key(self, value):
         self.key = value
 
-    "get_adjacent_vertices: returns a list of all vertices connected to this one"
-
+    "get_adjacent_vertices: returns a list of all vertices connected to this one "
+    "automatically updates the key value"
     def get_adjacent_vertices(self):
         adjacent_vertices = []
+
+        key = INFINITY
 
         for index in range(len(vertices)):
             if graph[self.vertex_number][index] != 0:
                 adjacent_vertices.append(index)
 
         return adjacent_vertices
-
-    def find_cheapest_edge(self):
-        self.key = 13
-        return self.key
-
 
 class min_priority_queue:
     "Contains information and methods for dealing with B, our heap structure"
@@ -72,7 +70,7 @@ class min_priority_queue:
 
     "pop: removes front element at index 0 which is lowest cost, highest priority"
 
-    def get_minimum(self):
+    def pop_minimum(self):
         popped_item = self.contents[0]
         self.contents.remove(popped_item)
         self.size = self.size - 1
@@ -115,80 +113,25 @@ B = min_priority_queue(len(vertices))
 # make starting vertex's key 0 for now
 B.contents[0].set_key(0)
 
-iterations = 0
+#___________________________________________________________________________________________________________
+
+# For this assignment we will be calling u the current_vertex and v the next_vertex to not get them confused. 
+
+# while not B.isEmpty():
 while B.size != 0:
-
-    #                          updates
-    #_____________________________________________________________________________
-    iterations = iterations + 1
-    print("After", iterations, "iterations, here's what we have: \n")
-    print("B: ", )
-
-    for index in range(len(B.contents)):
-        print("[", index, "]: ", "(", B.contents[index].name, B.contents[index].get_key(), ")")
-
-    """
-    print("\nT: ")
-    for index in range(len(T)):
-        if (T[index] != INFINITY): print("[", index, "]: ", vertices[T[index]])
-    """
-
-    print("\nparents[] : ")
-    for index in range(len(parents)):
-        if (parents[index] != -1): print("[", vertices[index], "]: ", parents[index].name)
-
-    #_____________________________________________________________________________
-
-    u = B.get_minimum()
-
-    adjacent_vertices = u.get_adjacent_vertices()
-
-    #__________________________MORE TESTING EWWW___________________________________________________
-    print("\nadjacent vertices to u: ( u is", u.name,")")
-    for index in range(len(adjacent_vertices)):
-        print(">", vertices[adjacent_vertices[index]])
-
-    #_____________________________________________________________________________
-
-    for index in range(len(adjacent_vertices)):
-        if B.contains(adjacent_vertices[index]):
-
-            edge_cost = graph[u.vertex_number][adjacent_vertices[index]]
-
-            print(">>>his edge cost for (",(u.vertex_number),adjacent_vertices[index],") was", edge_cost)
-
-            # update key value of v in B if weight of edge (u,v) is
-            # smaller than current key value of v
-            if edge_cost < u.key and edge_cost != 0:
-                B.update_key(u.vertex_number, edge_cost)
-
-
-                print("updated key for ", vertices[u.vertex_number] ," to", B.contents[u.vertex_number].get_key())
-
-    print(".....................................")
-        
-
+    current_vertex = B.pop_minimum()
+    print("current_vertex = ", vertices[current_vertex.vertex_number])
+    
+    for next_vertex in current_vertex.get_adjacent_vertices():
+        new_cost = current_vertex.get_weight(next_vertex)
 
 
 
 """
-5) While either pq doesn't become empty 
-    a) Extract minimum key vertex from pq. 
-       Let the extracted vertex be u.
-
-    b) Include u in MST using inMST[u] = true.
-
-    c) Loop through all adjacent of u and do 
-       following for every vertex v.
-
-           // If weight of edge (u,v) is smaller than
-           // key of v and v is not already in MST
-           If inMST[v] = false && key[v] > weight(u, v)
-
-               (i) Update key of v, i.e., do
-                     key[v] = weight(u, v)
-               (ii) Insert v into the pq 
-               (iv) parent[v] = u
-               
-6) Print MST edges using parent array.
+        for nextVert in currentVert.getConnections():
+          newCost = currentVert.getWeight(nextVert)
+          if nextVert in B and newCost<nextVert.getDistance():
+              nextVert.setPred(currentVert)
+              nextVert.setDistance(newCost)
+              B.decreaseKey(nextVert,newCost)
 """
