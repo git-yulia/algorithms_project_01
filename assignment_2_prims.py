@@ -62,6 +62,10 @@ class vertex:
         self.key = 13
         return self.key
 
+class edge:
+    def __init__(self, vertex_1, vertex_2, edge_weight):
+        self.contents = (vertex_1, vertex_2)
+        self.edge_weight = edge_weight
 
 class min_priority_queue:
     "Contains information and methods for dealing with B, our heap structure"
@@ -78,7 +82,13 @@ class min_priority_queue:
         self.size = self.size - 1
         return popped_item
 
-    "push: appends element to the back, lowest priority"
+    "push: appends elements to B and then sorts them" 
+    def push(self, edge):
+        pass
+
+    def heapsort(self):
+        print("B before sorting:", B)
+        print("B after sorting:", B)
 
     "contains: checks B for existence of desired vertex"
 
@@ -106,19 +116,16 @@ T = []
 starting_node = 0
 print("Starting Prim's algorithm at arbitrary root", vertices[starting_node])
 
-# create an array parents[] of size V and fill it with NULL
-parents = [(-1) for index in range(len(vertices))]
-
 # create a min heap of size V. let the min heap be B[]
 B = min_priority_queue(len(vertices))
 
 # make starting vertex's key 0 for now
 B.contents[0].set_key(0)
 
+"""
 iterations = 0
 while B.size != 0:
 
-    #                          updates
     #_____________________________________________________________________________
     iterations = iterations + 1
     print("After", iterations, "iterations, here's what we have: \n")
@@ -127,28 +134,15 @@ while B.size != 0:
     for index in range(len(B.contents)):
         print("[", index, "]: ", "(", B.contents[index].name, B.contents[index].get_key(), ")")
 
-    """
     print("\nT: ")
     for index in range(len(T)):
         if (T[index] != INFINITY): print("[", index, "]: ", vertices[T[index]])
-    """
-
-    print("\nparents[] : ")
-    for index in range(len(parents)):
-        if (parents[index] != -1): print("[", vertices[index], "]: ", parents[index].name)
 
     #_____________________________________________________________________________
 
     u = B.get_minimum()
 
     adjacent_vertices = u.get_adjacent_vertices()
-
-    #__________________________MORE TESTING EWWW___________________________________________________
-    print("\nadjacent vertices to u: ( u is", u.name,")")
-    for index in range(len(adjacent_vertices)):
-        print(">", vertices[adjacent_vertices[index]])
-
-    #_____________________________________________________________________________
 
     for index in range(len(adjacent_vertices)):
         if B.contains(adjacent_vertices[index]):
@@ -162,10 +156,32 @@ while B.size != 0:
             if edge_cost < u.key and edge_cost != 0:
                 B.update_key(u.vertex_number, edge_cost)
 
+                # sort when you change a key 
+
 
                 print("updated key for ", vertices[u.vertex_number] ," to", B.contents[u.vertex_number].get_key())
 
-    print(".....................................")
+    """
+stage = 0
+while B.size != 0:
+    print("STAGE", stage)
+    # set current vertex 
+
+    # push all edges adjacent to our popped dude, SORT 
+    
+
+
+    
+    # current vertex = detination of edge we traveled on (added to T)
+
+
+
+
+
+
+    stage = stage + 1
+
+print(".....................................")
         
 
 
