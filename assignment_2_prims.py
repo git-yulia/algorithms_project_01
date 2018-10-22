@@ -75,13 +75,13 @@ class vertex:
 
         for index in range(len(vertices)):
             if graph[self.vertex_number][index] != 0:
-                added_edge = edge(self.vertex_number, index, (graph[self.vertex_number][index]))
+                added_edge = Edge(self.vertex_number, index, (graph[self.vertex_number][index]))
                 #print("Added an edge to adjacents:", edge_names[added_edge.contents[0]][added_edge.contents[1]])
                 adjacent_edges.append(added_edge)
 
         return adjacent_edges
 
-class edge:
+class Edge:
     def __init__(self, vertex_1, vertex_2, edge_weight):
         self.name = edge_names[vertex_1][vertex_2]
         self.contents = (vertex_1, vertex_2)
@@ -91,10 +91,10 @@ class min_priority_queue:
     "Contains information and methods for dealing with B, our heap structure"
     def __init__(self, size_of_heap):
         self.size = size_of_heap
-        self.contents = [] * required_number_of_edges
+        self.contents = []
 
     "pop: removes front edge at index 0 which is lowest cost, highest priority"
-    def get_minimum(self):
+    def pop_minimum(self):
         popped_item = self.contents[0]
         self.contents.remove(popped_item)
         self.size = self.size - 1
@@ -102,14 +102,45 @@ class min_priority_queue:
 
     "push: appends edges to B and then sorts all of them" 
     def push(self, edge):
-        pass
+        self.contents.append(edge)
 
     def heapsort(self):
-        print("B before sorting:", B)
-        print("B after sorting:", B)
+        heapSort(self.contents)
 
-# Initialize T, an empty tree that will later become our MCST.
-
+def heapify(arr, n, i): 
+    largest = i # Initialize largest as root 
+    l = 2 * i + 1     # left = 2*i + 1 
+    r = 2 * i + 2     # right = 2*i + 2 
+  
+    # See if left child of root exists and is 
+    # greater than root 
+    if l < n and arr[i].edge_weight < arr[l].edge_weight: 
+        largest = l 
+  
+    # See if right child of root exists and is 
+    # greater than root 
+    if r < n and arr[largest].edge_weight < arr[r].edge_weight: 
+        largest = r 
+  
+    # Change root, if needed 
+    if largest != i: 
+        arr[i],arr[largest] = arr[largest],arr[i] # swap 
+  
+        # Heapify the root. 
+        heapify(arr, n, largest) 
+  
+# The main function to sort an array of given size 
+def heapSort(arr): 
+    n = len(arr) 
+  
+    # Build a maxheap. 
+    for i in range(n, -1, -1): 
+        heapify(arr, n, i) 
+  
+    # One by one extract elements 
+    for i in range(n-1, 0, -1): 
+        arr[i], arr[0] = arr[0], arr[i] # swap 
+        heapify(arr, i, 0) 
 
 class MCST: 
     def __init__(self):
@@ -121,72 +152,75 @@ class MCST:
         self.size = self.size + 1
 
     def does_not_contain(self, edge_name):
-        contains_edge = False
+        edge_not_here = True
 
         for index in range(len(self.contents)):
-            print(self.contents[index].name)
-            print(edge_name)
-
             if self.contents[index].name == edge_name:
-                contains_edge = True
+                edge_not_here = False
 
-        return contains_edge
+        return edge_not_here
 
     def print_contents(self):
         for edge in self.contents:
-            print(edge.name)
+            print(">", edge.name)
 
-edge_example = edge(0,1,2)
-T = MCST()
-
-
-# create a min heap of size V. let the min heap be B[]
-B = min_priority_queue(len(vertices))
-
-T.add_edge(edge(0,1,2))
 
 def main():
+    
+    # create a min heap of size V. let the min heap be B[]
+    B = min_priority_queue(len(vertices))
+
     stage = 0
     current_vertex = vertex(0)
-    
+    element_in_T = -1
+
+    T = MCST()
+
     print("Starting Prim's algorithm at arbitrary root", vertices[current_vertex.vertex_number])
 
     while T.size < required_number_of_edges and stage < 5:
+        print("current_vertex =", vertices[current_vertex.vertex_number])
+
 
         # Find adjacent_vertices 
         adjacent_vertices = current_vertex.get_adjacent_edges() 
         
         #  push adjacent edges of current_vertex to B and SORT 
-        index = 0 
         for edge in adjacent_vertices:
-            print(edge.name)
 
             # only add the edge to B if it is not already in our MCST
             if T.does_not_contain(edge.name):
-                print("gonna add this edge")    
+                B.push(edge)
 
-            index = index + 1
-        #  do not add edge if in T
-        
+        # SORT B 
+        B.heapsort()
 
         #  if size(B) == 0 (no edges), current_vertex = find_vertex_with_new_paths(), push those to B and SORT 
+        # subtract element_in_T until we get there
+
 
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
+        T.add_edge(B.pop_minimum())
+        element_in_T = element_in_T + 1
 
         #  set new current_vertex to T[]'s last element's tail 
-
+        current_vertex = vertex(T.contents[element_in_T].contents[1])
         
 
         
 
         print("[ STAGE", stage, "]")
-        print("B = ", B.contents)
-        print("T = ", T.print_contents())
-        print("current_vertex    = ", vertices[current_vertex.vertex_number])
+        print("\nB = {")
+        for edge in B.contents: 
+            print(">",edge.name, edge.edge_weight)
+        print("}")
+        print("\nT: {")
+        for edge in T.contents: 
+            print(">",edge.name, edge.edge_weight)
+        print("}")
         print("_________________________________________")
         stage = stage + 1
 
-    print("T = ", T.print_contents())
         
 
 main() 
