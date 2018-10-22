@@ -164,6 +164,17 @@ class MCST:
 
         return edge_not_here
 
+    def does_not_contain_vertex(self, vertex):
+        vertex_not_here = True
+
+        for index in range(len(self.contents)):
+            print("looking at ", vertices[self.contents[index].contents[1]])
+            if vertices[self.contents[index].contents[1]] == vertices[vertex]:
+                print("LOL FOUND EM")
+                vertex_not_here = False
+
+        return vertex_not_here
+
     def print_contents(self):
         for edge in self.contents:
             print(">", edge.name)
@@ -191,10 +202,11 @@ def main():
         
         #  push adjacent edges of current_vertex to B and SORT 
         for edge in adjacent_vertices:
+            print("Trying to add edge", edge.contents[0], edge.contents[1])
 
             # only add the edge to B if it is not already in our MCST
-            if T.does_not_contain(edge.name):
-                B.push(edge)
+            if T.does_not_contain_vertex(edge.contents[1]):
+                B.push(edge) 
 
         # SORT B 
         B.heapsort()
@@ -205,7 +217,6 @@ def main():
 
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
         T.add_edge(B.pop_minimum())
-        B.flush()
         element_in_T = element_in_T + 1
 
         #  set new current_vertex to T[]'s last element's tail 
@@ -227,6 +238,9 @@ def main():
         print("}")
         print("_________________________________________")
         stage = stage + 1
+
+        B.flush()
+
 
         
 
