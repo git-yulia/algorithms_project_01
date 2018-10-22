@@ -104,6 +104,10 @@ class min_priority_queue:
     def push(self, edge):
         self.contents.append(edge)
 
+    def flush(self):
+        for edge in self.contents:
+            self.contents.pop()
+
     def heapsort(self):
         heapSort(self.contents)
 
@@ -201,10 +205,13 @@ def main():
 
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
         T.add_edge(B.pop_minimum())
+        B.flush()
         element_in_T = element_in_T + 1
 
         #  set new current_vertex to T[]'s last element's tail 
         current_vertex = vertex(T.contents[element_in_T].contents[1])
+
+        
         
 
         
