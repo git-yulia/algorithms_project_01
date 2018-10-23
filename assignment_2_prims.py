@@ -182,8 +182,6 @@ def main():
     print("Starting Prim's algorithm at arbitrary root", vertices[current_vertex.vertex_number])
 
     while T.size < required_number_of_edges and stage < 5:
-        print("current_vertex =", vertices[current_vertex.vertex_number])
-
 
         # Find adjacent_vertices 
         adjacent_vertices = current_vertex.get_adjacent_edges() 
@@ -200,12 +198,10 @@ def main():
         B.heapsort()
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
         T.add_edge(B.pop_minimum())
-
-        #  set new current_vertex to T[]'s last element's tail 
-        current_vertex = vertex(T.contents[element_in_T].contents[1])
         
 
-        print("[ STAGE", stage, "]")
+        print("\n[ STAGE", stage, "]")
+        print("current_vertex =", vertices[current_vertex.vertex_number])
         print("\nB = {")
         for edge in B.contents: 
             print(">",edge.name, edge.edge_weight)
@@ -216,5 +212,8 @@ def main():
         print("}")
         print("_________________________________________")
         stage = stage + 1
+
+        #  set new current_vertex to T[]'s last element's tail 
+        current_vertex = vertex(T.contents[element_in_T].contents[1])
 
 main() 
