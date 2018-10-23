@@ -32,10 +32,8 @@ edge_names = [
     [0, "e5", 0, "e6", 0],
 ]
 
-
 # Initialize V using all the vertices from the graph.
 vertices = ["v1", "v2", "v3", "v4", "v5"]
-edges    = ["e1", "e2", "e3", "e4", "e5", "e6", "e7"]
 
 # by definition of MCST: 
 required_number_of_edges = len(vertices) - 1
@@ -156,23 +154,11 @@ class MCST:
         self.contents.append(edge)
         self.size = self.size + 1
 
-    def does_not_contain(self, edge_name):
-        edge_not_here = True
-
-        for index in range(len(self.contents)):
-            if self.contents[index].name == edge_name:
-                edge_not_here = False
-
-        return edge_not_here
-
     def does_not_contain_vertex(self, vertex):
         vertex_not_here = True
-        print("!! looking for", vertices[vertex])
 
         for index in range(len(self.contents)):
-            print(">>>>>>> looking at ", vertices[self.contents[index].contents[1]])
             if vertices[self.contents[index].contents[1]] == vertices[vertex]: 
-                print("found",  vertices[vertex])
                 vertex_not_here = False
 
         return vertex_not_here
@@ -208,49 +194,15 @@ def main():
 
             # only add the edge to B if it is not already in our MCST
             if T.does_not_contain_vertex(edge.contents[1]):
-                print("added ", edge.name)
                 B.push(edge) 
 
         # SORT B 
         B.heapsort()
-
-        #  if size(B) == 0 (no edges), current_vertex = find_vertex_with_new_paths(), push those to B and SORT 
-        # subtract element_in_T until we get there
-        """
-        if B.size == 0: 
-            looking_at_vertex = T.size - 1
-
-            while B.size == 0: 
-                current_vertex = vertex(T.contents[looking_at_vertex].contents[1])
-                print("analyzing", current_vertex.name)
-                adjacent_vertices = current_vertex.get_adjacent_edges() 
-
-                 #  push adjacent edges of current_vertex to B and SORT 
-
-                for edge in adjacent_vertices:
-                    print("Trying to add edge", edge.name)
-                    print("Does T contain", vertices[edge.contents[1]])
-
-                    # only add the edge to B if it is not already in our MCST
-                    if T.does_not_contain_vertex(edge.contents[1]):
-                        print("Added to b", edge.name)
-                        B.push(edge) 
-
-                looking_at_vertex = looking_at_vertex - 1 # go back a node
-
-                B.heapsort() 
-        """
-
-
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
         T.add_edge(B.pop_minimum())
 
         #  set new current_vertex to T[]'s last element's tail 
         current_vertex = vertex(T.contents[element_in_T].contents[1])
-
-        
-        
-
         
 
         print("[ STAGE", stage, "]")
@@ -264,10 +216,5 @@ def main():
         print("}")
         print("_________________________________________")
         stage = stage + 1
-
-        B.flush()
-
-
-        
 
 main() 
