@@ -69,7 +69,6 @@ class vertex:
                 added_edge = Edge(
                     self.vertex_number, index, (graph[self.vertex_number][index])
                 )
-                # print("Added an edge to adjacents:", edge_names[added_edge.contents[0]][added_edge.contents[1]])
                 adjacent_edges.append(added_edge)
 
         return adjacent_edges
@@ -103,7 +102,7 @@ class min_priority_queue:
     def heapsort(self):
         heapSort(self.contents)
 
-
+# heapify and heapsort directly copied from geeksforgeeks.com
 def heapify(arr, n, i):
     largest = i  # Initialize largest as root
     l = 2 * i + 1  # left = 2*i + 1
@@ -159,6 +158,13 @@ class MCST:
 
         return vertex_not_here
 
+    def does_not_contain_edge(self, edge_name):
+        edge_not_here = True
+        for index in range(len(self.contents)):
+            if self.contents[index].name == edge_name:
+                edge_not_here = False
+        return edge_not_here
+
     def print_contents(self):
         for edge in self.contents:
             print(">", edge.name)
@@ -187,14 +193,14 @@ def main():
 
         #  push adjacent edges of current_vertex to B and SORT
         for edge in adjacent_vertices:
-            # print("Trying to add edge", edge.contents[0], edge.contents[1])
 
             # only add the edge to B if it is not already in our MCST
-            if T.does_not_contain_vertex(edge.contents[1]):
+            if T.does_not_contain_vertex(edge.contents[1]) and T.does_not_contain_edge(edge.name):
                 B.push(edge)
 
         # SORT B
         B.heapsort()
+        
         #  pop top edge (cheapest) of B to T if T does not already contain e(i)
         T.add_edge(B.pop_minimum())
 
@@ -213,7 +219,6 @@ def main():
 
         #  set new current_vertex to T[]'s last element's tail
         current_vertex = vertex(T.contents[element_in_T].contents[1])
-
 
 main()
 
