@@ -1,0 +1,41 @@
+Starting Prim's algorithm at arbitrary root v1
+
+[ STAGE 0 ]
+Currently looking at vertex v1
+
+B =
+[ e1 9 ]
+
+T:
+[ e2 1 ]
+_________________________________________
+
+[ STAGE 1 ]
+Currently looking at vertex v3
+
+B =
+[ e1 9 ]
+
+T:
+[ e2 1 ] [ e3 3 ]
+_________________________________________
+
+[ STAGE 2 ]
+Currently looking at vertex v4
+
+B =
+[ e4 4 ] [ e1 9 ]
+
+T:
+[ e2 1 ] [ e3 3 ] [ e6 2 ]
+_________________________________________
+
+[ STAGE 3 ]
+Currently looking at vertex v5
+
+B =
+[ e1 9 ] [ e5 18 ]
+
+T:
+[ e2 1 ] [ e3 3 ] [ e6 2 ] [ e4 4 ]
+_________________________________________

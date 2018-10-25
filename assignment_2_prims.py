@@ -15,7 +15,7 @@ graph = [
     [0, 9, 1, 0, 0],
     [9, 0, 0, 4, 18],
     [1, 0, 0, 3, 0],
-    [0, 4, 3, 4, 2],
+    [0, 4, 3, 0, 2],
     [0, 18, 0, 2, 0],
 ]
 
@@ -99,6 +99,10 @@ class min_priority_queue:
     def push(self, edge):
         self.contents.append(edge)
 
+    def print_edges(self):
+        for edge in self.contents:
+            print("[", edge.name, edge.edge_weight, "]", end=" ")
+
     def heapsort(self):
         heapSort(self.contents)
 
@@ -165,9 +169,9 @@ class MCST:
                 edge_not_here = False
         return edge_not_here
 
-    def print_contents(self):
+    def print_edges(self):
         for edge in self.contents:
-            print(">", edge.name)
+            print("[", edge.name, edge.edge_weight, "]", end=" ")
 
 
 def main():
@@ -205,16 +209,15 @@ def main():
         T.add_edge(B.pop_minimum())
 
         print("\n[ STAGE", stage, "]")
-        print("current_vertex =", vertices[current_vertex.vertex_number])
-        print("\nB = {")
-        for edge in B.contents:
-            print(">", edge.name, edge.edge_weight)
-        print("}")
-        print("\nT: {")
-        for edge in T.contents:
-            print(">", edge.name, edge.edge_weight)
-        print("}")
-        print("_________________________________________")
+        print("Currently looking at vertex", vertices[current_vertex.vertex_number])
+        print("\nB = ")
+        
+        B.print_edges()
+
+        print("\n\nT: ")
+        T.print_edges()
+
+        print("\n_________________________________________")
         stage = stage + 1
 
         #  set new current_vertex to T[]'s last element's tail
